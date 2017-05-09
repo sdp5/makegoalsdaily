@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>make daily..</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="/static/css/login.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+</head>
+
+<body>
+  <div class="login">
+	<h1>Login</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div style="padding:5px; color:tomato; text-align:right">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+    	<input type="text" name="username" placeholder="Username" required="required" />
+        <input type="password" name="password" placeholder="Password" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+    </form>
+</div>
+</body>
+</html>
+
+<!--Copyright (c) 2017 by Tyler Fry (http://codepen.io/frytyler/pen/EGdtg)-->
+
+<!--Permission is hereby granted, free of charge, to any person obtaining a copy of this software and -->
+<!--associated documentation files (the "Software"), to deal in the Software without restriction, -->
+<!--including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, -->
+<!--and/or sell copies of the Software-->
