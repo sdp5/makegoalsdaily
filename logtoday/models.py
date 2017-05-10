@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
@@ -38,16 +40,23 @@ class DailyActivity(models.Model):
     """
 
     activity_id = models.AutoField(primary_key=True)
-    activity_created = models.DateTimeField(verbose_name="Activity Created On")
-    activity_detail = models.CharField(max_length=1000, verbose_name="Activity")
+    activity_created = models.DateTimeField(verbose_name="Activity Created On", default=timezone.now())
+    activity_detail = models.CharField(max_length=1000, verbose_name="Describe Activity")
     activity_star = models.BooleanField(verbose_name="Mark this as milestone.")
-    activity_goal_map = models.CharField(max_length=500, verbose_name="Goal Nick Name")
-    activity_user = models.CharField(max_length=500, verbose_name="Activity User")
-    activity_weightage = models.IntegerField(verbose_name="Activity Weightage", null=True, blank=True)
+    activity_goal_map = models.CharField(max_length=500, verbose_name="Map with Goal")
+    activity_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    activity_weightage = models.IntegerField(
+        verbose_name="Activity Weightage", default=1,
+        validators=[MaxValueValidator(10), MinValueValidator(1)], null=True, blank=True
+    )
+
+    def get_absolute_url(self):
+        return reverse('activities-list')
 
     def __str__(self):
-        return "{0} {1}".format(self.activity_id, self.activity_created)
+        return self.activity_detail
 
     class Meta:
         db_table = TABLE_PREFIX + 'activities'
         verbose_name_plural = "Daily Activities"
+        ordering = ['-activity_created']

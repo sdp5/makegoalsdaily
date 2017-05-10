@@ -1,5 +1,6 @@
 import os
 from setuptools import find_packages, setup
+from makedaily.settings.base import APP_VERSION
 
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
@@ -12,7 +13,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='makeDaily',
-    version='0.1.0',
+    version=APP_VERSION,
     packages=find_packages(),
     include_package_data=True,
     install_requires=REQUIRE,

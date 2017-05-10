@@ -1,17 +1,20 @@
 {% extends "dashboard/home.html" %}
 
 {% block extrascript %}
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#tab-goals').addClass('active');
-        })
-    </script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tab-dashboard').addClass('active');
+        $('#tab-goals').addClass('active');
+    })
+</script>
 {% endblock %}
 
 {% block content %}
     <div class="row">
         <div class="col-xs-12">
-            <span style="padding-left:10px">Chasing <span class="badge">{{ object_list|length }}</span> goals.</span>
+            {% block stat%}
+            <span style="padding-left:10px"><span class="badge">{{ goals|length }}</span> goals</span>
+            {% endblock %}
             <div class="pull-right">
                 {% block navigation %}
                     <a class="btn btn-default" role="button" href="{% url 'goal-create' %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add Goal</a>
@@ -21,11 +24,11 @@
     </div>
     <hr/>
     {% block subcontent %}
-        {% for goal in object_list %}
+        {% for goal in goals %}
             {% ifchanged %}<h2>{{ goal.goal_category }}</h2>{% endifchanged %}
                 <div class="panel panel-default" style="word-wrap: break-word;">
                   <div class="panel-body">
-                    <h3 class="text-primary">{{ goal.goal_slug }} <small>{{ goal.goal_desc }}</small></h3>
+                    <h3 class="text-primary">{{ goal.goal_slug }} {% if goal.goal_desc %}<small>{{ goal.goal_desc }}</small>{% endif %}</h3>
                     <p>{% if not goal.goal_status %} Expected Completion <span class="text-info">{{ goal.goal_target }}</span>
                        {% else %} Achieved <span class="glyphicon glyphicon-ok-sign" style="color:green"></span> {% endif %}
                     <span class="pull-right"><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;Last Updated
@@ -34,7 +37,7 @@
                         <span class="pull-right"><a class="btn btn-default" role="button" href="{% url 'goal-update' goal.goal_id %}">
                               <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Update</a>&nbsp;
                     <a class="btn btn-default" role="button" href="{% url 'goal-remove' goal.goal_id %}">
-                              <span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
+                              <span class="glyphicon glyphicon-remove"></span>&nbsp;
                         <span class="text-danger">Remove</span></a>&nbsp;</span></p>
                   </div>
                 </div>

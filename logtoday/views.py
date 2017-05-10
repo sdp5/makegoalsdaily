@@ -1,8 +1,9 @@
-from django.shortcuts import render
-
-# Create your views here.
+from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import (
+    authenticate, login, logout, update_session_auth_hash
+)
 from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
@@ -11,7 +12,8 @@ from django.views.generic.edit import (
 )
 from django.urls import reverse_lazy
 
-from logtoday.models import ShortTermGoals
+from logtoday.forms import GoalsCreateForm, ActivityCreateForm
+from logtoday.models import ShortTermGoals, DailyActivity
 
 
 class IndexView(TemplateView):
@@ -23,22 +25,14 @@ class ListGoalsView(ListView):
 
     template_name = "dashboard/goals_list.html"
     model = ShortTermGoals
-
-    def get_context_data(self, **kwargs):
-        """
-        Build context data
-        """
-        context_data = super(ListGoalsView, self).get_context_data(**kwargs)
-        context_data["user"] = self.request.user
-        return context_data
+    context_object_name = "goals"
 
 
 class GoalsCreate(CreateView):
 
     model = ShortTermGoals
     template_name = "dashboard/goal_create_update.html"
-
-    fields = ['goal_slug', 'goal_desc', 'goal_target', 'goal_category']
+    form_class = GoalsCreateForm
 
 
 class GoalsUpdate(UpdateView):
@@ -54,6 +48,32 @@ class GoalsDelete(DeleteView):
     model = ShortTermGoals
     template_name = "dashboard/goal_remove.html"
     success_url = reverse_lazy('goals-list')
+
+
+class ListActivitiesView(ListView):
+
+    model = DailyActivity
+    template_name = "dashboard/activities_list.html"
+    context_object_name = "activities"
+    paginate_by = 10
+
+
+class ActivityCreate(CreateView):
+
+    model = DailyActivity
+    template_name = "dashboard/activity_create.html"
+    form_class = ActivityCreateForm
+
+    def form_valid(self, form):
+        form.instance.activity_user = self.request.user
+        return super(ActivityCreate, self).form_valid(form)
+
+
+class ActivityDelete(DeleteView):
+
+    model = DailyActivity
+    template_name = "dashboard/activity_remove.html"
+    success_url = reverse_lazy('activities-list')
 
 
 def login_view(request):
@@ -72,3 +92,20 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy("index"))
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('index')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/change_password.html', {
+        'form': form
+    })

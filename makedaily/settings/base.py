@@ -58,6 +58,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'logtoday.context_processors.common_template_vars'
             ],
         },
     },
@@ -122,3 +123,5 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+APP_VERSION = "0.1.0"

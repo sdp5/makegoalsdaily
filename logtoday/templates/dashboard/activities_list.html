@@ -1,0 +1,70 @@
+{% extends "dashboard/home.html" %}
+
+{% block extrascript %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#tab-dashboard').addClass('active');
+            $('#tab-activities').addClass('active');
+        })
+    </script>
+    <style>
+        .table > tbody > tr > td {
+            padding-left: 10px;
+            vertical-align: middle;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            {% block stat %}
+            <span style="padding-left:10px"><span class="badge">{{ activities|length }}</span> activities</span>
+            {% endblock %}
+            <div class="pull-right">
+                {% block navigation %}
+                    <a class="btn btn-default" role="button" href="{% url 'activity-add' %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Log Activity</a>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <hr/>
+    {% block subcontent %}
+        {% if activities %}
+        <table class="table table-bordered table-hover">
+        {% for activity in activities %}
+            <tr>
+                <td style="width:4%">{% if activity.activity_star %}<span class="glyphicon glyphicon-star"></span>
+                    {% else %}<span class="glyphicon glyphicon-star-empty"></span>{% endif %}
+                </td>
+                <td style="width:18%"><span class="glyphicon glyphicon-screenshot"></span>
+                    <span class="text-info">{{ activity.activity_goal_map }}</span></td>
+                <td>{{ activity.activity_detail }}</td>
+                <td style="width:18%"><span class="glyphicon glyphicon-time"></span> {{ activity.activity_created|date:"d b 'y P" }}</td>
+                <td style="width:10%"><span class="glyphicon glyphicon-user"></span> {{ activity.activity_user }}</td>
+                <td style="width:4%"><a class="btn btn-default" role="button" href="{% ifequal user activity.activity_user %}
+                {% url 'activity-remove' activity.activity_id %}{% else %}#{% endifequal %}">
+                    <span class="glyphicon glyphicon-trash" style="color:#d9534f"></span></a></td>
+            </tr>
+        {% endfor %}
+        </table>
+        {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'activities-list' %}?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="{% url 'activities-list' %}?page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+            </span>
+        </div>
+        {% endif %}
+        {% else %}
+            No activities logged.
+        {% endif %}
+    {% endblock %}
+{% endblock %}

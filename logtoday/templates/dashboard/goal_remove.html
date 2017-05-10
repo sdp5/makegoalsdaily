@@ -1,5 +1,9 @@
 {% extends "dashboard/goals_list.html" %}
 
+{% block stat %}
+<span style="padding-left:10px"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Remove Goal</span>
+{% endblock %}
+
 {% block navigation %}
     <a class="btn btn-default" role="button" href="{% url 'goals-list' %}">
         <span class="glyphicon glyphicon-triangle-left"></span>&nbsp;&nbsp;Back to Goals</a>
@@ -11,7 +15,7 @@
       <div class="panel-body">
         <form action="" method="post">{% csrf_token %}
             <p>Are you sure you want to delete "{{ object }}"?</p>
-            <input type="submit" value="Confirm" />
+            <input {% if not user.is_superuser %}disabled{% endif %} type="submit" value="Confirm" />
         </form>
       </div>
     </div>

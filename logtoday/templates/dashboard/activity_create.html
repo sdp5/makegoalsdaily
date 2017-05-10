@@ -1,0 +1,24 @@
+{% extends "dashboard/activities_list.html" %}
+
+{% block stat %}
+<span style="padding-left:10px"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Log New Activity</span>
+{% endblock %}
+
+{% block navigation %}
+    <a class="btn btn-default" role="button" href="{% url 'activities-list' %}">
+        <span class="glyphicon glyphicon-triangle-left"></span>&nbsp;&nbsp;Back to Activities</a>
+{% endblock %}
+
+{% block subcontent %}
+    <div class="panel panel-default">
+      <div class="panel-heading">Log Activity</div>
+      <div class="panel-body">
+        <form action="" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <span class="glyphicon glyphicon-info-sign"></span>
+            <span class="text-muted">Once created, an activity can not be updated but can be deleted.</span>
+            <span class="pull-right"><input type="submit" value="Save Details" /></span>
+        </form>
+      </div>
+    </div>
+{% endblock %}
