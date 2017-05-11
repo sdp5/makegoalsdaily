@@ -11,7 +11,7 @@ env:
 
 .PHONY: demo
 demo:
-	python manage.py runserver --settings=makedaily.settings.test --insecure
+	python manage.py runserver --settings=makegoalsdaily.settings.test --insecure
 
 .PHONY: env-info
 env-info:
@@ -20,7 +20,7 @@ env-info:
 
 .PHONY: lint
 lint:
-	flake8 --ignore=E501,F401,F403,F405,F999 makedaily logtoday
+	flake8 --ignore=E501,F401,F403,F405,F999 makegoalsdaily logtoday
 
 .PHONY: migrations
 migrations:

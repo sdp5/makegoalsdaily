@@ -16,6 +16,8 @@ class GoalsCreateForm(forms.ModelForm):
             ('Tool', 'Software - Tool'),
             ('Project', 'OpenSource - Project'),
             ('Event', 'OpenSource - Event'),
+            ('Celebration', 'Family - Occasion'),
+            ('Excursion', 'Travel - Plan'),
             ('Extra-Curricular', 'Extracurricular - Activities'),
             ('Miscellaneous', 'Miscellaneous - Activities'),
         )

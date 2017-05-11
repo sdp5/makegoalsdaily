@@ -1,6 +1,6 @@
 import os
 from setuptools import find_packages, setup
-from makedaily.settings.base import APP_VERSION
+from makegoalsdaily.settings.base import APP_VERSION
 
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
@@ -12,15 +12,15 @@ with open(os.path.join(os.path.dirname(__file__), "requirements.txt"), 'rb') as 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='makeDaily',
+    name='make-goals-daily',
     version=APP_VERSION,
     packages=find_packages(),
     include_package_data=True,
     install_requires=REQUIRE,
     license='MIT',
-    description='',
+    description='Make contribution to your short term goals daily.',
     long_description=README,
-    url='https://github.com/sundeep-co-in/makedaily',
+    url='http://makegoalsdaily.com',
     author='Sundeep Anand',
     author_email='sundeep.co.in@gmail.com',
     classifiers=[

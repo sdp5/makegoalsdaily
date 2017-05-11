@@ -3,7 +3,7 @@ from django.conf import settings
 
 
 # GLOBAL VARS
-APP_NAME = "makeDaily"
+APP_NAME = "make-goals-daily"
 
 
 def common_template_vars(request):

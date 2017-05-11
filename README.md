@@ -1,4 +1,4 @@
-# makeDaily
+# make-goals-daily
 
 #### Make contribution to your short term goals daily :)
 

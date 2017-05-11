@@ -45,7 +45,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'makedaily.urls'
+ROOT_URLCONF = 'makegoalsdaily.urls'
 
 TEMPLATES = [
     {
@@ -64,7 +64,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'makedaily.wsgi.application'
+WSGI_APPLICATION = 'makegoalsdaily.wsgi.application'
 
 
 # Database

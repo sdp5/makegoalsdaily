@@ -1,4 +1,4 @@
-from makedaily.settings.base import *
+from makegoalsdaily.settings.base import *
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
