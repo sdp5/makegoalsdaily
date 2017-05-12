@@ -1,0 +1,52 @@
+{% extends "dashboard/settings_base.html" %}
+
+{% block extrascript %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#tab-settings').addClass('active');
+            $('#tab-goal-category').addClass('active');
+        })
+    </script>
+    <style>
+        .table {
+            width: 900px;
+        }
+        .table > tbody > tr > td {
+            padding-left: 10px;
+            vertical-align: middle;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12">
+        {% block stat %}
+        <span style="padding-left:10px"><span class="badge">{{ categories|length }}</span> goal categories</span>
+        {% endblock %}
+        <div class="pull-right">
+            {% block navigation %}
+                <a class="btn btn-default" role="button" href="{% url 'goal-category-add' %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add Category</a>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+<hr/>
+    {% block subcontent %}
+        <table class="table table-bordered table-hover">
+            {% for category in categories %}
+                <tr>
+                    <td width="5%"><b>{{ forloop.counter }}</b></td>
+                    <td width="30%">{{ category.category_value }}</td>
+                    <td>{{ category.category_name }}</td>
+                    <td width="10%"><a class="btn btn-default" role="button" href="{% url 'goal-category-update' category.category_id %}">
+                        <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Update</a></td>
+                    <td width="10%"><a class="btn btn-default" role="button" href="{% url 'goal-category-remove' category.category_id %}">
+                        <span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;<span class="text-danger">Remove</span></a></td>
+                </tr>
+            {% empty %}
+                No goal categories.<div class="text-info">{{ app_name }} would pick some default categories!</div>
+            {% endfor %}
+        </table>
+    {% endblock %}
+{% endblock %}

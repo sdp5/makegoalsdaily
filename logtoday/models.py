@@ -9,6 +9,26 @@ from django.urls import reverse
 TABLE_PREFIX = 'lt_'
 
 
+class GoalsCategory(models.Model):
+    """
+    Goal Categories Model
+    """
+
+    category_id = models.AutoField(primary_key=True)
+    category_value = models.CharField(max_length=200, unique=True, verbose_name="Goal Category (Slug Form)")
+    category_name = models.CharField(max_length=500, verbose_name="Goal Category Name")
+
+    def __str__(self):
+        return self.category_name
+
+    def get_absolute_url(self):
+        return reverse('goal-category')
+
+    class Meta:
+        db_table = TABLE_PREFIX + 'categories'
+        verbose_name_plural = "Goal Categories"
+
+
 class ShortTermGoals(models.Model):
     """
     Short term Goals Model

@@ -5,11 +5,15 @@
 <script src="/static/js/moment.min.js"></script>
 <script src="/static/js/bootstrap-datetimepicker.min.js"></script>
 <script>
-$(function () {
-    $('.datetime-input').datetimepicker({
-        format:'MM/DD/YYYY'
+    $(function () {
+        $('.datetime-input').datetimepicker({
+            format:'MM/DD/YYYY'
+        });
     });
-});
+    $(document).ready(function() {
+        $('#tab-dashboard').addClass('active');
+        $('#tab-goals').addClass('active');
+    })
 </script>
 {% endblock %}
 
@@ -23,6 +27,16 @@ $(function () {
 {% endblock %}
 
 {% block subcontent %}
+    <div style="padding-left:10px; padding-bottom:20px">
+        <h4>To make sure goals are clear and feasible, they should be:</h4>
+        <ul>
+            <li>&nbsp;Specific <small>(simple, sensible, significant)</small>.</li>
+            <li>&nbsp;Measurable <small>(meaningful, motivating)</small>.</li>
+            <li>&nbsp;Achievable <small>(agreed, attainable)</small>.</li>
+            <li>&nbsp;Relevant <small>(reasonable, realistic and resourced, results-based)</small>.</li>
+            <li>&nbsp;Time bound <small>(time-based, time limited, time/cost limited, timely, time-sensitive)</small>.</li>
+        </ul>
+    </div>
     <div class="panel panel-default">
       <div class="panel-heading">Set Goal</div>
       <div class="panel-body">

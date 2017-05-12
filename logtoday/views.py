@@ -13,7 +13,7 @@ from django.views.generic.edit import (
 from django.urls import reverse_lazy
 
 from logtoday.forms import GoalsCreateForm, ActivityCreateForm
-from logtoday.models import ShortTermGoals, DailyActivity
+from logtoday.models import GoalsCategory, ShortTermGoals, DailyActivity
 
 
 class IndexView(TemplateView):
@@ -74,6 +74,36 @@ class ActivityDelete(DeleteView):
     model = DailyActivity
     template_name = "dashboard/activity_remove.html"
     success_url = reverse_lazy('activities-list')
+
+
+class GoalsCategoryView(ListView):
+
+    model = GoalsCategory
+    template_name = "dashboard/goal_categories.html"
+    context_object_name = "categories"
+
+
+class GoalsCategoryCreate(CreateView):
+
+    model = GoalsCategory
+    template_name = "dashboard/category_create_update.html"
+
+    fields = ['category_value', 'category_name']
+
+
+class GoalsCategoryUpdate(UpdateView):
+
+    model = GoalsCategory
+    template_name = "dashboard/category_create_update.html"
+
+    fields = ['category_value', 'category_name']
+
+
+class GoalsCategoryDelete(DeleteView):
+
+    model = GoalsCategory
+    template_name = "dashboard/category_remove.html"
+    success_url = reverse_lazy('goal-category')
 
 
 def login_view(request):

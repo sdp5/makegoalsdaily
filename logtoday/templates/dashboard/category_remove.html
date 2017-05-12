@@ -1,27 +1,17 @@
-{% extends "dashboard/goals_list.html" %}
-
-{% block extrascript %}
-<script>
-    $(document).ready(function() {
-        $('#tab-dashboard').addClass('active');
-        $('#tab-goals').addClass('active');
-    })
-</script>
-{% endblock %}
-
+{% extends "dashboard/goal_categories.html" %}
 
 {% block stat %}
-<span style="padding-left:10px"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Remove Goal</span>
+<span style="padding-left:10px"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Remove Goal Category</span>
 {% endblock %}
 
 {% block navigation %}
     <a class="btn btn-default" role="button" href="{% url 'goals-list' %}">
-        <span class="glyphicon glyphicon-triangle-left"></span>&nbsp;&nbsp;Back to Goals</a>
+        <span class="glyphicon glyphicon-triangle-left"></span>&nbsp;&nbsp;Back to Goal Categories</a>
 {% endblock %}
 
 {% block subcontent %}
     <div class="panel panel-default">
-      <div class="panel-heading">Remove Goal</div>
+      <div class="panel-heading">Remove Category</div>
       <div class="panel-body">
         <form action="" method="post">{% csrf_token %}
             <p>Are you sure you want to delete "{{ object }}"?</p>

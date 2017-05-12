@@ -1,0 +1,15 @@
+{% extends "dashboard/base.html" %}
+
+{% block contentpage %}
+  <div class="well well-sm">
+    <h3>Application Settings</h3>
+  </div><br/>
+  <ul class="nav nav-tabs">
+      <li role="presentation" id="tab-goal-category"><a href="{% url 'goal-category' %}"><span class="glyphicon glyphicon-tag"></span>&nbsp;&nbsp;Goal Categories</a></li>
+      <li role="presentation" id="tab-chg-pwd"><a href="{% url 'change-pwd' %}"><span class="glyphicon glyphicon-wrench"></span>&nbsp;&nbsp;Change Password</a></li>
+  </ul>
+  <br/>
+  <div style="min-height:500px">
+    {% block content %}{% endblock %}
+  </div>
+{% endblock %}
