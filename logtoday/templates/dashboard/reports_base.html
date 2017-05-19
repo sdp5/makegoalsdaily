@@ -1,0 +1,23 @@
+{% extends "dashboard/home.html" %}
+
+{% block content %}
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Type</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li id="tab-type-status">
+              <a href="#"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;Monthly Status</a>
+          </li>
+          <li id="tab-type-progress">
+              <a href="#"><span class="glyphicon glyphicon-stats"></span>&nbsp;&nbsp;Progress in Goals</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div style="padding:10px">
+        {% block subcontent %}
+        {% endblock %}
+    </div>
+{% endblock %}

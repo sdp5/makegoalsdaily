@@ -1,10 +1,15 @@
+import os
+import json
+import pytz
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import (
     authenticate, login, logout, update_session_auth_hash
 )
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import Context, Template
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import (
@@ -55,7 +60,7 @@ class ListActivitiesView(ListView):
     model = DailyActivity
     template_name = "dashboard/activities_list.html"
     context_object_name = "activities"
-    paginate_by = 10
+    paginate_by = 15
 
 
 class ActivityCreate(CreateView):
@@ -106,6 +111,14 @@ class GoalsCategoryDelete(DeleteView):
     success_url = reverse_lazy('goal-category')
 
 
+class ReportMonthlyStatus(TemplateView):
+    """
+    Monthly Status teport View
+    """
+    template_name = "dashboard/report_status.html"
+    context_object_name = "activities"
+
+
 def login_view(request):
     username = request.POST.get("username")
     password = request.POST.get("password")
@@ -114,6 +127,14 @@ def login_view(request):
     if user is not None:
         login(request, user)
         redirect_url = "goals-list"
+        try:
+            with open(os.path.join('makegoalsdaily', 'app-config.json')) as data_file:
+                data = json.load(data_file)
+            if data.get('timezone') and data.get('timezone') in pytz.common_timezones:
+                request.session['django_timezone'] = data['timezone']
+        except:
+            # log error
+            pass
     else:
         messages.add_message(request, messages.ERROR, "Invalid Credentials")
     return HttpResponseRedirect(reverse_lazy(redirect_url))
@@ -139,3 +160,22 @@ def change_password(request):
     return render(request, 'accounts/change_password.html', {
         'form': form
     })
+
+
+def monthly_activities(request):
+    """
+    Monthly Activities AJAX View
+    """
+    if request.is_ajax():
+        post_params = request.POST.dict()
+        if post_params.get('month_year'):
+            context = Context(
+                {'META': request.META,
+                 'month_year': post_params['month_year']}
+            )
+            template_string = """
+                {% load monthly_activities from custom_tags %}
+                {% monthly_activities month_year %}
+            """
+            return HttpResponse(Template(template_string).render(context))
+    return HttpResponse(status=500)

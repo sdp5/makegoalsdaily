@@ -1,0 +1,15 @@
+<div class="panel panel-default">
+    <div class="panel-heading">{{ month|date:"F Y" }}</div>
+    <div class="panel-body">
+    {% for goal, activities in goal_activities.items %}
+        <h5 class="text-primary">{{ goal }}</h5>
+        {% for activity in activities %}
+        &nbsp;-&nbsp;<span class="text-muted">{{ activity.activity_created }}</span>&nbsp;&nbsp;
+        {{ activity.activity_detail }}&nbsp;&nbsp;(<i>{{ activity.activity_user }}</i>)
+        {% if activity.activity_star %}*{% endif %}<br/>
+        {% endfor %}
+    {% empty %}
+        No activities logged.
+    {% endfor %}
+    </div>
+</div>

@@ -1,9 +1,8 @@
 # make-goals-daily
 
 #### Make contribution to your short term goals daily :)
-
-Just 3 steps:
+##### And stay on track, just in 3 steps..
 
 * enter short term goals
-* log your daily activity
+* log your activity daily
 * leave rest to the app

@@ -25,7 +25,7 @@
       <div class="panel-body">
         <form action="" method="post">{% csrf_token %}
             <p>Are you sure you want to delete "{{ object }}"?</p>
-            <input {% if not user.is_superuser %}disabled{% endif %} type="submit" value="Confirm" />
+            <input {% if not user.is_superuser %}disabled{% endif %} type="submit" value="Confirm"  class="btn btn-default" />
         </form>
       </div>
     </div>

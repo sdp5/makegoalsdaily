@@ -15,7 +15,7 @@
       <div class="panel-body">
         <form action="" method="post">{% csrf_token %}
             <p>Are you sure you want to delete "{{ object }}"?</p>
-            <input {% ifnotequal user object.activity_user %}disabled{% endifnotequal %} type="submit" value="Confirm" />
+            <input {% ifnotequal user object.activity_user %}disabled{% endifnotequal %} type="submit" value="Confirm"  class="btn btn-default" />
         </form>
       </div>
     </div>
