@@ -7,11 +7,11 @@ clean-pyc:
 
 .PHONY: env
 env:
-	pip install -r requirements.txt
+	pip3 install -r requirements.txt
 
 .PHONY: demo
 demo:
-	python manage.py runserver --settings=makegoalsdaily.settings.test --insecure
+	python3 manage.py runserver --settings=makegoalsdaily.settings.test --insecure
 
 .PHONY: env-info
 env-info:
@@ -24,12 +24,12 @@ lint:
 
 .PHONY: migrations
 migrations:
-	python manage.py makemigrations
+	python3 manage.py makemigrations
 
 .PHONY: migrate
 migrate:
-	python manage.py migrate
+	python3 manage.py migrate --noinput
 
 .PHONY: run
 run:
-	python manage.py runserver
+	python3 manage.py runserver

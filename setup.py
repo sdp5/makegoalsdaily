@@ -22,7 +22,7 @@ setup(
     long_description=README,
     url='http://makegoalsdaily.com',
     author='Sundeep Anand',
-    author_email='sundeep.co.in@gmail.com',
+    author_email='web@sundeep.co.in',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
