@@ -6,13 +6,15 @@ from logtoday.views import (
     IndexView, ListGoalsView, GoalsCreate, GoalsUpdate, GoalsDelete,
     ListActivitiesView, ActivityCreate, ActivityDelete, GoalsCategoryView,
     GoalsCategoryCreate, GoalsCategoryUpdate, GoalsCategoryDelete,
-    ReportMonthlyStatus, monthly_activities, login_view, logout_view, change_password
+    ReportMonthlyStatus, ReportGoalsProgress, monthly_activities,
+    login_view, logout_view, change_password
 )
 
 
 reports_url = [
     url(r'^$', login_required(ReportMonthlyStatus.as_view(), login_url="/"), name="reports-home"),
     url(r'^ajax/monthly-activities$', monthly_activities, name="monthly_activities"),
+    url(r'^progress$', login_required(ReportGoalsProgress.as_view(), login_url="/"), name="reports-progress"),
 ]
 
 settings_url = [

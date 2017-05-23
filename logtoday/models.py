@@ -42,6 +42,14 @@ class ShortTermGoals(models.Model):
     goal_target = models.DateTimeField(null=True, blank=True, verbose_name="Expected Completion Date")
     goal_category = models.CharField(max_length=500, verbose_name="Goal Category")
     goal_notes = models.CharField(max_length=1000, null=True, blank=True, verbose_name="Notes or Remarks")
+    goal_weight = models.IntegerField(
+        verbose_name="Hours per day", default=2,
+        validators=[MaxValueValidator(3), MinValueValidator(1)], null=True, blank=True
+    )
+
+    @property
+    def days_remaining(self):
+        return (self.goal_target - timezone.now()).days
 
     def __str__(self):
         return self.goal_slug
@@ -66,8 +74,8 @@ class DailyActivity(models.Model):
     activity_goal_map = models.CharField(max_length=500, verbose_name="Map with Goal")
     activity_user = models.ForeignKey(User, on_delete=models.CASCADE)
     activity_weightage = models.IntegerField(
-        verbose_name="Activity Weightage", default=1,
-        validators=[MaxValueValidator(10), MinValueValidator(1)], null=True, blank=True
+        verbose_name="Weights (4 Hours is 1 Weight)", default=1,
+        validators=[MaxValueValidator(3), MinValueValidator(1)], null=True, blank=True
     )
 
     def get_absolute_url(self):

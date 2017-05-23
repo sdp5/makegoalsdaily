@@ -31,3 +31,8 @@ def monthly_activities(month_year):
         'month': datetime.strptime(month_year, "%m-%Y") if month_year else timezone.now(),
         'goal_activities': m_activities
     }
+
+
+@register.filter
+def multiply(value, arg):
+    return value * arg

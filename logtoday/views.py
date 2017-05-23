@@ -1,14 +1,16 @@
 import os
 import json
 import pytz
+from collections import OrderedDict
 
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import (
     authenticate, login, logout, update_session_auth_hash
 )
+from django.db.models import Sum
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.template import Context, Template
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
@@ -113,10 +115,53 @@ class GoalsCategoryDelete(DeleteView):
 
 class ReportMonthlyStatus(TemplateView):
     """
-    Monthly Status teport View
+    Monthly Status Report View
     """
     template_name = "dashboard/report_status.html"
-    context_object_name = "activities"
+
+
+class ReportGoalsProgress(TemplateView):
+    """
+    Progress In Goals Report View
+    """
+    model = ShortTermGoals
+    template_name = "dashboard/report_progress.html"
+    context_object_name = "goals"
+
+    def _goal_progress_percentage(self, goal_start_date, goal_end_date, t_weights, s_weights=None):
+        if not s_weights:
+            s_weights = 2
+        return (t_weights / ((goal_end_date - goal_start_date).days * s_weights)) * 100
+
+    def get_context_data(self, **kwargs):
+        context_data = super(ReportGoalsProgress, self).get_context_data(**kwargs)
+        goals = ShortTermGoals.objects.only('goal_slug', 'goal_desc', 'goal_target').filter(goal_status=False).all()
+        goals_progress_dict = OrderedDict()
+        for goal in goals:
+            goals_progress_dict[goal.goal_slug] = OrderedDict()
+            goals_progress_dict[goal.goal_slug]['description'] = goal.goal_desc
+            goals_progress_dict[goal.goal_slug]['target'] = goal.goal_target
+            goals_progress_dict[goal.goal_slug]['remaining'] = goal.days_remaining
+
+            try:
+                goal_activities = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug).count()
+                goal_milestones = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug, activity_star=True).count()
+                goal_weightage = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug).aggregate(Sum('activity_weightage'))
+                goal_first_activity = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug).latest('activity_created')
+            except:
+                # log error
+                pass
+            else:
+                goals_progress_dict[goal.goal_slug]['milestones'] = goal_milestones
+                goals_progress_dict[goal.goal_slug]['activities'] = goal_activities
+                goals_progress_dict[goal.goal_slug]['weightage'] = goal_weightage.get('activity_weightage__sum', 1)
+                progress_percent = self._goal_progress_percentage(
+                    goal_first_activity.activity_created, goal.goal_target,
+                    goal_weightage.get('activity_weightage__sum', 1), goal.goal_weight)
+                goals_progress_dict[goal.goal_slug]['progress_percent'] = progress_percent
+
+        context_data['progress'] = goals_progress_dict
+        return context_data
 
 
 def login_view(request):

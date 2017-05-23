@@ -6,6 +6,8 @@ from logtoday.models import GoalsCategory, ShortTermGoals, DailyActivity
 class GoalsCreateForm(forms.ModelForm):
 
     goal_category = forms.ChoiceField(widget=forms.Select(attrs={'class': 'btn btn-default'}))
+    goal_weight = forms.ChoiceField(widget=forms.Select(attrs={'class': 'btn btn-default'}),
+                                    label="Hours per day")
 
     def __init__(self, *args, **kwargs):
         categories = tuple([(category.category_value, category.category_name) for category in
@@ -24,12 +26,14 @@ class GoalsCreateForm(forms.ModelForm):
                 ('Extra-Curricular', 'Extracurricular - Activities'),
                 ('Miscellaneous', 'Miscellaneous - Activities'),
             )
+        weights = (('1', '4 Hours'), ('2', '8 Hours'), ('3', '12 Hours'))
         super(GoalsCreateForm, self).__init__(*args, **kwargs)
         self.fields['goal_category'].choices = categories
+        self.fields['goal_weight'].choices = weights
 
     class Meta:
         model = ShortTermGoals
-        fields = ['goal_slug', 'goal_desc', 'goal_target', 'goal_category']
+        fields = ['goal_slug', 'goal_desc', 'goal_target', 'goal_category', 'goal_weight']
         widgets = {
             'goal_target': forms.DateTimeInput(attrs={'class': 'datetime-input'}),
         }

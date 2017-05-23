@@ -1,0 +1,43 @@
+{% extends "dashboard/reports_base.html" %}
+{% load custom_tags %}
+
+{% block extrascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#tab-dashboard").addClass("active");
+        $("#tab-reports").addClass("active");
+        $("#tab-type-progress").addClass("active");
+    });
+</script>
+{% endblock %}
+
+{% block subcontent %}
+    {% for goal, details in progress.items %}
+        <div class="container" style="width:100%">
+          <h3>{{ details.description }} <span class="pull-right"><small>{{ details.target|timeuntil }}
+              <span class="text-warning">remaining</span>.</small></span></h3>
+          <div class="progress">
+              <div class="progress-bar progress-bar-striped active" role="progressbar"
+              aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:{{ details.progress_percent }}%">
+                {{ details.weightage|multiply:4 }} hours
+              </div>
+          </div>
+          <p>{% if details.activities %}{{ details.activities }} activities.&nbsp;&nbsp;{% endif %}
+             {% if details.milestones %}<span class="text-success">{{ details.milestones }} milestones</span>{% endif %}</p>
+        </div>
+    {% empty %}
+        No Goals.
+    {% endfor %}
+    <div style="padding-top:20px; padding-bottom">
+        <div class="panel panel-default">
+          <div class="panel-body">
+              <p>Progress is calculated using <mark>total_weights / ((goal_end_date - goal_start_date) * goal_specific_weight or 2)</mark> formula, where..</p>
+              <ul>
+                  <li>goal_start_date is the first activity created date,</li>
+                  <li>goal_end_date is goal target date <small>(which can be updated)</small>, and</li>
+                  <li>one weight equals to 4 hrs work. If not specified for a goal, average of 2 weights per day is assumed!</li>
+              </ul>
+          </div>
+        </div>
+    </div>
+{% endblock %}

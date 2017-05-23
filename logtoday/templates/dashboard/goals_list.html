@@ -1,4 +1,5 @@
 {% extends "dashboard/home.html" %}
+{% load custom_tags %}
 
 {% block extrascript %}
 <script type="text/javascript">
@@ -29,7 +30,8 @@
                 <div class="panel panel-default" style="word-wrap: break-word;">
                   <div class="panel-body">
                     <h3 class="text-primary">{{ goal.goal_slug }} {% if goal.goal_desc %}<small>{{ goal.goal_desc }}</small>{% endif %}</h3>
-                    <p>{% if not goal.goal_status %} Expected Completion <span class="text-info">{{ goal.goal_target }}</span>
+                    <p>{% if goal.goal_weight %}<b>{{ goal.goal_weight|multiply:4 }} hours</b> planned to be spent per day.&nbsp;{% endif %}
+                       {% if not goal.goal_status %} Expected Completion <span class="text-info">{{ goal.goal_target }}</span>
                        {% else %} Achieved <span class="glyphicon glyphicon-ok-sign" style="color:green"></span> {% endif %}
                     <span class="pull-right"><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;Last Updated
                         <span class="text-muted">{{ goal.goal_updated|timesince }} ago</span></span></p>

@@ -1,4 +1,5 @@
 {% extends "dashboard/home.html" %}
+{% load custom_tags %}
 
 {% block extrascript %}
     <script type="text/javascript">
@@ -40,7 +41,8 @@
                 </td>
                 <td style="width:18%"><span class="glyphicon glyphicon-screenshot"></span>
                     <span class="text-info">{{ activity.activity_goal_map }}</span></td>
-                <td>{{ activity.activity_detail }}</td>
+                <td style="width:46%;word-wrap:break-word;">
+                    <a href="#" data-toggle="tooltip" title="{{ activity.activity_weightage|multiply:4 }} hours">{{ activity.activity_detail }}</a></td>
                 <td style="width:18%"><span class="glyphicon glyphicon-time"></span> {{ activity.activity_created|date:"d b 'y P" }}</td>
                 <td style="width:10%"><span class="glyphicon glyphicon-user"></span> {{ activity.activity_user }}</td>
                 <td style="width:4%"><a class="btn btn-default" role="button" href="{% ifequal user activity.activity_user %}
