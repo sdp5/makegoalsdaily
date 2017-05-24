@@ -4,4 +4,4 @@ cd /workspace
 export PYTHONPATH=/workspace;$PYTHONPATH
 
 python3 manage.py initlogin
-python3 manage.py runserver 0.0.0.0:8080
+python3 manage.py runserver 0.0.0.0:8080 --settings=makegoalsdaily.settings.test --insecure

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="activity logger to chase goals">
+    <meta name="author" content="Sundeep Anand">
+
+    <title>make-goals-daily ..</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/one-page-wonder.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-99739004-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">make-goals-daily</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse pull-right " id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#download">Download and Try</a>
+                    </li>
+                    <li>
+                        <a href="#develop">Contribute and Develop</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Full Width Image Header -->
+    <header class="header-image">
+        <div class="headline">
+            <div class="container">
+                <h2>activity logger to chase goals</h2>
+                <h3>make contributions to your short term goals daily :)</h3>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <hr class="featurette-divider">
+
+        <!-- First Featurette -->
+        <div class="featurette" id="about">
+            <img class="featurette-image img-circle img-responsive pull-right" src="img/goals.png">
+            <h2 class="featurette-heading">Set Goals
+                <span class="text-muted">create, update your short term goals</span>
+            </h2>
+            <p class="lead">Short term goals are prerequisite to logging activities. And they fall under some category. Application has a default set of categories which could be overridden by creating new set in settings. Description should be comprehensive and complete though it can be updated. Date of completion may be tentative and hence can be updated. Specification of planned hours to be spent per day makes goals measurable. Goals can be updated with notes or remarks. Further goals can be marked as achieved. And may be removed.</p>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- Second Featurette -->
+        <div class="featurette" id="services">
+            <img class="featurette-image img-circle img-responsive pull-left" src="img/activity.png">
+            <h2 class="featurette-heading">Log Activity
+                <span class="text-muted">log what you have done today</span>
+            </h2>
+            <p class="lead">Daily activities should be logged with the application. Each activity holds mapping with a goal, and this ensures that all our activities are a part of our goals. Activity should have a short description and number of weights. 1 weight is equal to 4 hrs, hence 2 weights are 8 hrs and 3 are 12 hrs respectively. This depicts which work takes how much time. Activity can be marked as milestone. They are listed in desc order of their creation making latest at the top. Users who create these activities are also logged. Activities can not be updated but can be removed.</p>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- Third Featurette -->
+        <div class="featurette" id="contact">
+            <img class="featurette-image img-circle img-responsive pull-right" src="img/status.png">
+            <h2 class="featurette-heading">Experience Reports
+                <span class="text-muted">monthly status and progress in goals</span>
+            </h2>
+            <p class="lead">Monthly status is simple listing of activities grouped together by goals for a given month. Application would pick current month if not specified. Whereas Progress In Goals shows number of hours spent for a goal with respect to hours may be required for its completion. It also counts total number of activities logged and how many of them were milestones. This actually helps in time management of a goal considering its priority. As goal completion date can be adjusted this remains flexible too. Making it a great tool to manage your goals.</p>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- Fourth Featurette -->
+        <div class="featurette" id="download">
+            <h2 class="featurette-heading">Download and Try
+                <span class="text-muted small">get an instance at your laptop</span>
+            </h2>
+            <p class="lead">Installing make-goals-daily app is super easy with docker!<br/>
+                Get <a href="https://www.docker.com/" target="_blank">docker</a> running on your machine. Here are the links for <a href="https://docs.docker.com/docker-for-mac/install/" target="_blank">Mac</a> and
+                <a href="https://docs.docker.com/docker-for-windows/install/" target="_blank">Windows</a>.<br/><br/>
+                RUN <mark>$ docker search makegoalsdaily</mark> you should see <mark>docker.io/suanand/makegoalsdaily</mark> image<br/>
+                RUN <mark>$ docker pull suanand/makegoalsdaily</mark><br/>
+                RUN <mark>$ docker run -d --name appcontainer -p 8000:8080 suanand/makegoalsdaily</mark><br/>
+                And, point your browser to <mark>localhost:8000</mark> here, comes your login screen!<br/><br/>
+                Login with admin and <span class="text-muted">makegoalsdaily</span> as password. Please change password immediately.<br/>
+                <small class="text-muted">Feel free to create <a href="https://github.com/sundeep-co-in/makegoalsdaily/issues" target="_blank">issues</a>.</small> Enjoy!
+            </p>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- Fifth Featurette -->
+        <div class="featurette" id="develop">
+            <h2 class="featurette-heading">Contribute and Develop
+                <span class="text-muted small">collaboration works better</span>
+            </h2>
+            <p class="lead">make-goals-daily is an open source project, hosted at <a href="https://github.com/sundeep-co-in/makegoalsdaily" target="_blank">GitHub</a>.<br/>
+                If you have really liked the idea and got some interesting thoughts around, lets build this together.<br/><br/>
+                <span class="text-muted">First,</span> create an <a href="https://github.com/sundeep-co-in/makegoalsdaily/issues" target="_blank">issue</a> to discuss the idea.<br/>
+                <span class="text-muted">Second,</span> submit patch and keep the discussion open.<br/>
+                <span class="text-muted">Third,</span> as soon as patch attains stability, it becomes the part.<br/>
+                <span class="text-muted">Fourth,</span> did you get any suggestion / comment meanwhile? Do share!<br/><br/>
+                Thanks, see you :)
+            </p>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; make-goals-daily 2017</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
