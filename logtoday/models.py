@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -38,7 +40,7 @@ class ShortTermGoals(models.Model):
     goal_slug = models.CharField(max_length=500, unique=True, verbose_name="Goal Name (Slug Form)")
     goal_desc = models.CharField(max_length=2000, verbose_name="Short Description", null=True, blank=True)
     goal_status = models.BooleanField(verbose_name="Goal Achieved?", default=False)
-    goal_updated = models.DateTimeField(null=True, blank=True, verbose_name="Last Updated On", default=timezone.now())
+    goal_updated = models.DateTimeField(null=True, blank=True, verbose_name="Last Updated On")
     goal_target = models.DateTimeField(null=True, blank=True, verbose_name="Expected Completion Date")
     goal_category = models.CharField(max_length=500, verbose_name="Goal Category")
     goal_notes = models.CharField(max_length=1000, null=True, blank=True, verbose_name="Notes or Remarks")
@@ -57,6 +59,12 @@ class ShortTermGoals(models.Model):
     def get_absolute_url(self):
         return reverse('goals-list')
 
+    def save(self, *args, **kwargs):
+        self.goal_updated = timezone.make_aware(
+            datetime.now(), timezone.get_default_timezone()
+        )
+        return super(ShortTermGoals, self).save(*args, **kwargs)
+
     class Meta:
         db_table = TABLE_PREFIX + 'goals'
         verbose_name = "Short Term Goal"
@@ -68,7 +76,7 @@ class DailyActivity(models.Model):
     """
 
     activity_id = models.AutoField(primary_key=True)
-    activity_created = models.DateTimeField(verbose_name="Activity Created On", default=timezone.now())
+    activity_created = models.DateTimeField(verbose_name="Activity Created On")
     activity_detail = models.CharField(max_length=1000, verbose_name="Describe Activity")
     activity_star = models.BooleanField(verbose_name="Mark this as milestone.")
     activity_goal_map = models.CharField(max_length=500, verbose_name="Map with Goal")
@@ -83,6 +91,13 @@ class DailyActivity(models.Model):
 
     def __str__(self):
         return self.activity_detail
+
+    def save(self, *args, **kwargs):
+        if not self.activity_id:
+            self.activity_created = timezone.make_aware(
+                datetime.now(), timezone.get_default_timezone()
+            )
+        return super(DailyActivity, self).save(*args, **kwargs)
 
     class Meta:
         db_table = TABLE_PREFIX + 'activities'
