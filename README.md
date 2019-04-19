@@ -1,4 +1,4 @@
-# make-goals-daily
+# log-today
 
 #### Make contribution to your short term goals daily :)
 ##### And stay on track, just in 3 steps..
