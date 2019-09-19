@@ -29,7 +29,7 @@
 
 ### Get Involved
 
-* RUN `git clone https://github.com/sundeep-co-in/logtoday.git`
+* RUN `git clone https://github.com/sundeep-co-in/makegoalsdaily.git`
 * Create a virtualenv and activate it.
 * RUN `make env` `make migrate` `make initlogin` `make run` commands
 * Point your browser to localhost:8000 and import project in your IDE
