@@ -18,6 +18,10 @@ env-info:
 	uname -a
 	pip list
 
+.PHONY: initlogin
+initlogin:
+	python3 manage.py initlogin
+
 .PHONY: lint
 lint:
 	flake8 --ignore=E501,F401,F403,F405,F999 makegoalsdaily logtoday

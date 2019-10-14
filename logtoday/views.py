@@ -131,7 +131,13 @@ class ReportGoalsProgress(TemplateView):
     def _goal_progress_percentage(self, goal_start_date, goal_end_date, t_weights, s_weights=None):
         if not s_weights:
             s_weights = 2
-        return (t_weights / ((goal_end_date - goal_start_date).days * s_weights)) * 100
+        percentage = 0.0
+        try:
+            percentage = (t_weights / ((goal_end_date - goal_start_date).days * s_weights)) * 100
+        except ZeroDivisionError:
+            # pass for now
+            pass
+        return percentage
 
     def get_context_data(self, **kwargs):
         context_data = super(ReportGoalsProgress, self).get_context_data(**kwargs)
