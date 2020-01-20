@@ -1,0 +1,26 @@
+{% extends "dashboard/home.html" %}
+{% load custom_tags %}
+
+{% block extrascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tab-dashboard').addClass('active');
+        $('#tab-today').addClass('active');
+    })
+</script>
+{% endblock %}
+
+{% block content %}
+    {% block subcontent %}
+    <h3>What's for today?<small class="pull-right text-success">{% now "d F Y" %}</small></h3><hr/>
+        <div style="padding:10px">
+            {% for task in tasks %}
+                {% ifchanged %}<h4 class="text-primary">{{ task.task_goal_map }}</h4>{% endifchanged %}
+                <ul><li>{{ task.task_subject }}&nbsp;<i class="text-muted">{{ task.task_details }}</i></li></ul>
+            {% empty %}
+                <h5>No tasks. Enjoy your day :-)</h5>
+                    <h5><i>Or, contribute to any of the goals!</i></h5>
+            {% endfor %}
+        </div>
+    {% endblock %}
+{% endblock %}

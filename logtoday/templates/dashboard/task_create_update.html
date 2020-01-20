@@ -1,0 +1,39 @@
+{% extends "dashboard/tasks_list.html" %}
+
+{% block extrascript %}
+<link href="/static/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="/static/js/moment.min.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.min.js"></script>
+<script>
+    $(function () {
+        $('.datetime-input').datetimepicker({
+            format:'MM/DD/YYYY'
+        });
+    });
+    $(document).ready(function() {
+        $('#tab-dashboard').addClass('active');
+        $('#tab-goals').addClass('active');
+    })
+</script>
+{% endblock %}
+
+{% block stat %}
+<span style="padding-left:10px"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Create or Update Task</span>
+{% endblock %}
+
+{% block navigation %}
+    <a class="btn btn-default" role="button" href="{% url 'tasks-list' goal %}">
+        <span class="glyphicon glyphicon-triangle-left"></span>&nbsp;&nbsp;Back to Tasks</a>
+{% endblock %}
+
+{% block subcontent %}
+    <div class="panel panel-default">
+      <div class="panel-heading">Set Task</div>
+      <div class="panel-body">
+        <form action="" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <span class="pull-right"><input type="submit" value="Save Details" class="btn btn-default" /></span>
+        </form>
+      </div>
+    </div>
+{% endblock %}

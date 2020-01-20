@@ -2,6 +2,7 @@ import os
 import json
 import pytz
 from collections import OrderedDict
+from datetime import date
 
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
@@ -19,13 +20,34 @@ from django.views.generic.edit import (
 )
 from django.urls import reverse_lazy
 
-from logtoday.forms import GoalsCreateForm, ActivityCreateForm
-from logtoday.models import GoalsCategory, ShortTermGoals, DailyActivity
+from logtoday.forms import (
+    GoalsCreateForm, ActivityCreateForm, TaskCreateForm,
+    TaskUpdateForm
+)
+from logtoday.models import (
+    GoalsCategory, ShortTermGoals, DailyActivity, GoalTasks
+)
 
 
 class IndexView(TemplateView):
 
     template_name = "login.html"
+
+
+class DashboardView(ListView):
+
+    template_name = "dashboard/landing_page.html"
+
+    context_object_name = 'tasks'
+
+    def get_queryset(self):
+        qs = []
+        try:
+            qs = GoalTasks.objects.filter(task_target_date__date=date.today())
+        except Exception:
+            # pass for now
+            pass
+        return qs
 
 
 class ListGoalsView(ListView):
@@ -113,6 +135,86 @@ class GoalsCategoryDelete(DeleteView):
     success_url = reverse_lazy('goal-category')
 
 
+class ListTasks(ListView):
+
+    template_name = "dashboard/tasks_list.html"
+    context_object_name = 'tasks'
+
+    def get_queryset(self):
+
+        try:
+            qs = GoalTasks.objects.filter(task_goal_map=self.kwargs['pk'])
+            return qs.all() if qs else []
+        except Exception:
+            return []
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_data = super(ListTasks, self).get_context_data(**kwargs)
+        context_data['goal'] = self.kwargs['pk']
+        return context_data
+
+
+class CreateTasks(CreateView):
+
+    model = GoalTasks
+    template_name = "dashboard/task_create_update.html"
+    form_class = TaskCreateForm
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_data = super(CreateTasks, self).get_context_data(**kwargs)
+        context_data['goal'] = self.kwargs['pk']
+        return context_data
+
+    def get_initial(self):
+        initials = {}
+        initials.update(dict(task_goal_map=self.kwargs['pk']))
+        return initials
+
+    def get_success_url(self):
+        return reverse_lazy('tasks-list', kwargs={'pk': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        form.instance.task_user = self.request.user
+        return super(CreateTasks, self).form_valid(form)
+
+
+class TaskEdit(UpdateView):
+
+    model = GoalTasks
+    template_name = "dashboard/task_create_update.html"
+    pk_url_kwarg = 'task_id'
+    form_class = TaskUpdateForm
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_data = super(TaskEdit, self).get_context_data(**kwargs)
+        context_data['goal'] = self.kwargs['pk']
+        return context_data
+
+    def get_initial(self):
+        initials = {}
+        qs = super(TaskEdit, self).get_object()
+        initials.update(dict(task_target_date=qs.task_target_date))
+        return initials
+
+    def get_success_url(self):
+        return reverse_lazy('tasks-list', kwargs={'pk': self.kwargs['pk']})
+
+
+class TaskDelete(DeleteView):
+
+    model = GoalTasks
+    template_name = "dashboard/task_remove.html"
+    pk_url_kwarg = 'task_id'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_data = super(TaskDelete, self).get_context_data(**kwargs)
+        context_data['goal'] = self.kwargs['pk']
+        return context_data
+
+    def get_success_url(self):
+        return reverse_lazy('tasks-list', kwargs={'pk': self.kwargs['pk']})
+
+
 class ReportMonthlyStatus(TemplateView):
     """
     Monthly Status Report View
@@ -154,7 +256,7 @@ class ReportGoalsProgress(TemplateView):
                 goal_milestones = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug, activity_star=True).count()
                 goal_weightage = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug).aggregate(Sum('activity_weightage'))
                 goal_first_activity = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug).latest('activity_created')
-            except:
+            except Exception:
                 # log error
                 pass
             else:
@@ -177,13 +279,13 @@ def login_view(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        redirect_url = "goals-list"
+        redirect_url = "dashboard"
         try:
             with open(os.path.join('makegoalsdaily', 'app-config.json')) as data_file:
                 data = json.load(data_file)
             if data.get('timezone') and data.get('timezone') in pytz.common_timezones:
                 request.session['django_timezone'] = data['timezone']
-        except:
+        except Exception:
             # log error
             pass
     else:

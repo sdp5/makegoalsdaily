@@ -103,3 +103,33 @@ class DailyActivity(models.Model):
         db_table = TABLE_PREFIX + 'activities'
         verbose_name_plural = "Daily Activities"
         ordering = ['-activity_created']
+
+
+class GoalTasks(models.Model):
+    """
+    Goal Tasks Model
+    """
+
+    task_id = models.AutoField(primary_key=True)
+    task_subject = models.CharField(max_length=400, verbose_name="Task Subject")
+    task_details = models.CharField(max_length=1000, verbose_name="Task Details")
+    task_created_on = models.DateTimeField(verbose_name="Activity Created On")
+    task_target_date = models.DateTimeField(verbose_name="Task Target Date")
+    task_completion_date = models.DateTimeField(verbose_name="Task Completion Date", null=True, blank=True)
+    task_goal_map = models.CharField(max_length=500, verbose_name="Map with Goal")
+    task_user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.task_subject
+
+    def save(self, *args, **kwargs):
+        if not self.task_id:
+            self.task_created_on = timezone.make_aware(
+                datetime.now(), timezone.get_default_timezone()
+            )
+        return super(GoalTasks, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = TABLE_PREFIX + 'tasks'
+        verbose_name_plural = "Goal Tasks"
+        ordering = ['task_target_date']

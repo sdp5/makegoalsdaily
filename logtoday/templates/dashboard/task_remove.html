@@ -1,0 +1,22 @@
+{% extends "dashboard/activities_list.html" %}
+
+{% block stat %}
+<span style="padding-left:10px"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Remove Activity</span>
+{% endblock %}
+
+{% block navigation %}
+    <a class="btn btn-default" role="button" href="{% url 'tasks-list' goal %}">
+        <span class="glyphicon glyphicon-triangle-left"></span>&nbsp;&nbsp;Back to Tasks</a>
+{% endblock %}
+
+{% block subcontent %}
+    <div class="panel panel-default">
+      <div class="panel-heading">Remove Task</div>
+      <div class="panel-body">
+        <form action="" method="post">{% csrf_token %}
+            <p>Are you sure you want to delete "{{ object }}"?</p>
+            <input {% ifnotequal user object.task_user %}disabled{% endifnotequal %} type="submit" value="Confirm"  class="btn btn-default" />
+        </form>
+      </div>
+    </div>
+{% endblock %}
