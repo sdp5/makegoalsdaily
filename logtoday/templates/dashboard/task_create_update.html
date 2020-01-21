@@ -30,10 +30,14 @@
     <div class="panel panel-default">
       <div class="panel-heading">Set Task</div>
       <div class="panel-body">
+        {% if not goal_completed %}
         <form action="" method="post">{% csrf_token %}
             {{ form.as_p }}
             <span class="pull-right"><input type="submit" value="Save Details" class="btn btn-default" /></span>
         </form>
+        {% else %}
+          <p class="text-info">As the goal is already completed, new tasks cannot be added.</p>
+        {% endif %}
       </div>
     </div>
 {% endblock %}

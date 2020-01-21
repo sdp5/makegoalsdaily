@@ -18,8 +18,8 @@
                 {% ifchanged %}<h4 class="text-primary">{{ task.task_goal_map }}</h4>{% endifchanged %}
                 <ul><li>{{ task.task_subject }}&nbsp;<i class="text-muted">{{ task.task_details }}</i></li></ul>
             {% empty %}
-                <h5>No tasks. Enjoy your day :-)</h5>
-                    <h5><i>Or, contribute to any of the goals!</i></h5>
+                <h4>No tasks. Enjoy your day !!</h4>
+                    <h5><i>Or, contribute to any of the goals.</i></h5>
             {% endfor %}
         </div>
     {% endblock %}

@@ -37,7 +37,7 @@ class ShortTermGoals(models.Model):
     """
 
     goal_id = models.AutoField(primary_key=True)
-    goal_slug = models.CharField(max_length=500, unique=True, verbose_name="Goal Name (Slug Form)")
+    goal_slug = models.SlugField(max_length=500, unique=True, verbose_name="Goal Name (Slug Form)")
     goal_desc = models.CharField(max_length=2000, verbose_name="Short Description", null=True, blank=True)
     goal_status = models.BooleanField(verbose_name="Goal Achieved?", default=False)
     goal_updated = models.DateTimeField(null=True, blank=True, verbose_name="Last Updated On")

@@ -36,9 +36,9 @@
                     <span class="pull-right"><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;Last Updated
                         <span class="text-muted">{{ goal.goal_updated|timesince }} ago</span></span></p>
                     <p>{% if goal.goal_notes %} Notes <span class="text-info">{{ goal.goal_notes }}</span>{% endif %}
-                        <span class="pull-right">
-                            <a class="btn btn-default" role="button" href="{% url 'tasks-list' goal.goal_slug %}">
+                        <a class="btn btn-primary" role="button" href="{% url 'tasks-list' goal.goal_slug %}">
                               <span class="glyphicon glyphicon-tasks"></span>&nbsp;&nbsp;Tasks</a>&nbsp;
+                        <span class="pull-right">
                             <a class="btn btn-default" role="button" href="{% url 'goal-update' goal.goal_id %}">
                               <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Update</a>&nbsp;
                     <a class="btn btn-default" role="button" href="{% url 'goal-remove' goal.goal_id %}">

@@ -163,6 +163,14 @@ class CreateTasks(CreateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context_data = super(CreateTasks, self).get_context_data(**kwargs)
         context_data['goal'] = self.kwargs['pk']
+        context_data['goal_completed'] = False
+        try:
+            goal = ShortTermGoals.objects.filter(goal_slug=self.kwargs['pk'])
+            if goal and goal.get() and goal.get().goal_status:
+                context_data['goal_completed'] = True
+        except Exception:
+            # pass for now
+            pass
         return context_data
 
     def get_initial(self):
