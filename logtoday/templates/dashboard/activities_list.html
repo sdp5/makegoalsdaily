@@ -2,18 +2,27 @@
 {% load custom_tags %}
 
 {% block extrascript %}
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#tab-dashboard').addClass('active');
-            $('#tab-activities').addClass('active');
-        })
-    </script>
-    <style>
-        .table > tbody > tr > td {
-            padding-left: 10px;
-            vertical-align: middle;
-        }
-    </style>
+
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/dataTables.bootstrap.min.css" rel="stylesheet">
+
+<script src="/static/js/jquery-3.3.1.js"></script>
+<script src="/static/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tab-dashboard').addClass('active');
+        $('#tab-activities').addClass('active');
+        $('#activitiesTable').DataTable();
+    })
+</script>
+<style>
+    .table > tbody > tr > td {
+        padding-left: 10px;
+        vertical-align: middle;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -31,43 +40,40 @@
     </div>
     <hr/>
     {% block subcontent %}
-        {% if activities %}
-        <table class="table table-bordered table-hover">
-        {% for activity in activities %}
-            <tr>
-                <td style="width:4%" align="center">{% if activity.activity_star %}
-                    <span class="glyphicon glyphicon-star" style="color: DarkOrange"></span>
-                    {% else %}<span class="glyphicon glyphicon-star-empty" style="color: Silver"></span>{% endif %}
-                </td>
-                <td style="width:18%"><span class="glyphicon glyphicon-screenshot"></span>
-                    <span class="text-info">{{ activity.activity_goal_map }}</span></td>
-                <td style="width:46%;word-wrap:break-word;">
-                    <a href="#" data-toggle="tooltip" title="{{ activity.activity_weightage|multiply:4 }} hours">{{ activity.activity_detail }}</a></td>
-                <td style="width:18%"><span class="glyphicon glyphicon-time"></span> {{ activity.activity_created|date:"d b 'y P" }}</td>
-                <td style="width:10%"><span class="glyphicon glyphicon-user"></span> {{ activity.activity_user }}</td>
-                <td style="width:4%"><a class="btn btn-default" role="button" href="{% ifequal user activity.activity_user %}
-                {% url 'activity-remove' activity.activity_id %}{% else %}#{% endifequal %}">
-                    <span class="glyphicon glyphicon-trash" style="color:#d9534f"></span></a></td>
-            </tr>
-        {% endfor %}
-        </table>
-        {% if is_paginated %}
-        <div class="pagination">
-            <span class="page-links">
-                {% if page_obj.has_previous %}
-                    <a href="{% url 'activities-list' %}?page={{ page_obj.previous_page_number }}">Previous</a>
-                {% endif %}
-                <span class="page-current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-                {% if page_obj.has_next %}
-                    <a href="{% url 'activities-list' %}?page={{ page_obj.next_page_number }}">Next</a>
-                {% endif %}
-            </span>
+        <div style="padding-bottom:10%">
+            {% if activities %}
+                <table id="activitiesTable" class="table table-hover">
+                    <thead><tr>
+                        <th>&nbsp;</th>
+                        <th>Goal</th>
+                        <th>Activity</th>
+                        <th>Date</th>
+                        <th>By</th>
+                        <th>&nbsp;</th>
+                    </tr></thead>
+                    <tbody>
+                {% for activity in activities %}
+                    <tr>
+                        <td style="width:4%" align="center">{% if activity.activity_star %}
+                            <span class="glyphicon glyphicon-star" style="color: DarkOrange"></span>
+                            {% else %}<span class="glyphicon glyphicon-star-empty" style="color: Silver"></span>{% endif %}
+                        </td>
+                        <td style="width:18%"><span class="glyphicon glyphicon-th-large"></span>
+                            <span class="text-info">{{ activity.activity_goal_map }}</span></td>
+                        <td style="width:46%;word-wrap:break-word;">
+                            <a href="#" data-toggle="tooltip" title="{{ activity.activity_weightage|multiply:4 }} hours">{{ activity.activity_detail }}</a></td>
+                        <td style="width:18%"><span class="glyphicon glyphicon-time"></span> {{ activity.activity_created|date:"d b 'y P" }}</td>
+                        <td style="width:10%"><span class="glyphicon glyphicon-user"></span> {{ activity.activity_user }}</td>
+                        <td style="width:4%"><a class="btn btn-default" role="button" href="{% ifequal user activity.activity_user %}
+                        {% url 'activity-remove' activity.activity_id %}{% else %}#{% endifequal %}">
+                            <span class="glyphicon glyphicon-trash" style="color:#d9534f"></span></a></td>
+                    </tr>
+                {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                No activities logged.
+            {% endif %}
         </div>
-        {% endif %}
-        {% else %}
-            No activities logged.
-        {% endif %}
     {% endblock %}
 {% endblock %}

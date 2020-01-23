@@ -37,15 +37,12 @@
     <nav class="navbar navbar-inverse">
     <div class="container container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">{{ app_name }}</a>
+          <a class="navbar-brand" href="#"><i>Make</i> Goals <strong>Daily</strong>..</a>
       </div>
-      <ul class="nav navbar-nav">
-        <li id="tab-dashboard"><a href="{% url 'goals-list' %}">
-            <span class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;Dashboard</a></li>
-      </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Hi {{ user.get_username }}!</a></li>
-        <li id="tab-settings"><a href="{% url 'goal-category' %}"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;Settings</a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Welcome <b>{{ user.get_username }}</b>!</a></li>
+          <li id="tab-dashboard"><a href="{% url 'dashboard' %}"><span class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;Dashboard</a></li>
+          <li id="tab-settings"><a href="{% url 'goal-category' %}"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;Settings</a></li>
         <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;Logout</a></li>
       </ul>
     </div>

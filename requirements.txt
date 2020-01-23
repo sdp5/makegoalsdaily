@@ -1,4 +1,5 @@
 appdirs
+flake8
 Django
 django-debug-toolbar
 packaging

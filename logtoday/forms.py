@@ -1,6 +1,6 @@
 
 from django import forms
-from logtoday.models import GoalsCategory, ShortTermGoals, DailyActivity
+from logtoday.models import GoalsCategory, ShortTermGoals, DailyActivity, GoalTasks
 
 
 class GoalsCreateForm(forms.ModelForm):
@@ -51,3 +51,30 @@ class ActivityCreateForm(forms.ModelForm):
     class Meta:
         model = DailyActivity
         fields = ['activity_detail', 'activity_goal_map', 'activity_weightage', 'activity_star']
+
+
+class TaskCreateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(TaskCreateForm, self).__init__(*args, **kwargs)
+        self.fields['task_goal_map'].widget = forms.HiddenInput()
+
+    class Meta:
+        model = GoalTasks
+        fields = ['task_subject', 'task_details', 'task_target_date', 'task_goal_map']
+        widgets = {
+            'task_target_date': forms.DateTimeInput(attrs={'class': 'datetime-input'})
+        }
+
+
+class TaskUpdateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(TaskUpdateForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = GoalTasks
+        fields = ['task_details', 'task_target_date', 'task_completion_date']
+        widgets = {
+            'task_completion_date': forms.DateTimeInput(attrs={'class': 'datetime-input'})
+        }

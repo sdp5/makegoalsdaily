@@ -1,12 +1,10 @@
 {% extends "dashboard/base.html" %}
 
 {% block contentpage %}
-  <div class="well well-sm">
-    <h3>Set Goals. Log Activity. Experience Reports.</h3>
-  </div><br/>
   <ul class="nav nav-tabs">
-      <li role="presentation" id="tab-goals"><a href="{% url 'goals-list' %}"><span class="glyphicon glyphicon-screenshot"></span>&nbsp;&nbsp;Short Term Goals</a></li>
-      <li role="presentation" id="tab-activities"><a href="{% url 'activities-list' %}"><span class="glyphicon glyphicon-tasks"></span>&nbsp;&nbsp;Daily Activities</a></li>
+      <li role="presentation" id="tab-today"><a href="{% url 'dashboard' %}"><span class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;Today's</a></li>
+      <li role="presentation" id="tab-goals"><a href="{% url 'goals-list' %}"><span class="glyphicon glyphicon-th-large"></span>&nbsp;&nbsp;Short Term Goals</a></li>
+      <li role="presentation" id="tab-activities"><a href="{% url 'activities-list' %}"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;Daily Activities</a></li>
       <li role="presentation" id="tab-reports"><a href="{% url 'reports-home' %}"><span class="glyphicon glyphicon-stats"></span>&nbsp;&nbsp;Reports</a></li>
   </ul>
   <br/>

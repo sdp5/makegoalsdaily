@@ -18,7 +18,7 @@ def monthly_activities(month_year):
     year = datetime.strptime(month_year, "%m-%Y").date().year if month_year else timezone.now().year
     try:
         activities = DailyActivity.objects.filter(activity_created__month=month, activity_created__year=year)
-    except:
+    except Exception:
         # log event, passing for now
         pass
     else:
