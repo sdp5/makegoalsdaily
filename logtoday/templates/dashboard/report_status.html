@@ -13,7 +13,7 @@ function csrfSafeMethod(a){return/^(GET|HEAD|OPTIONS|TRACE)$/.test(a)}function g
 {% block subcontent %}
     <form method="post" id ="pickMonthForm" class="form-horizontal">{% csrf_token %}
         <p><label for="id_pick_month">Pick Month:</label>
-            <input type="text" name="pick_month" class="datetime-input" id="id_pick_month" />
+            <input type="text" name="pick_month" class="datetime-input" id="id_pick_month" required/>
             <button type="submit" class="btn btn-default">Go</button>
         </p>
     </form>
