@@ -37,3 +37,7 @@ migrate:
 .PHONY: run
 run:
 	python3 manage.py runserver
+
+.PHONY: test
+test:
+	python3 manage.py test tests.functional

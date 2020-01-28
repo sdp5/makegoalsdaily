@@ -7,7 +7,7 @@ TIMEOUT = 2
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
-    fixtures = ['functional_tests/auth_dump.json']
+    fixtures = ['tests/functional/auth_dump.json']
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -38,11 +38,15 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         project_name = self.browser.find_element_by_xpath(
             "//div[@class='navbar-header']/a").text
-        self.assertIn('make-goals-daily', project_name)
+        self.assertIn('Make Goals Daily', project_name)
+
+        # Go to Goals Tab
+        self.browser.find_element_by_xpath(
+            "//a[contains(@href, '/dashboard/goals/')]").click()
 
         # Open add goal form
         self.browser.find_element_by_xpath(
-            "//a[contains(@href, '/dashboard/goal/add/')]").click()
+            "//a[contains(@href, '/dashboard/goals/add/')]").click()
 
         # Fill the entries in the new goal form
         goal_slug_input = self.browser.find_element_by_name('goal_slug')
@@ -63,7 +67,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # Check goal section is visible
         goal_heading = self.browser.find_element_by_xpath(
-            "//div[@class='container']/div[2]/h2")
+            "//div[@class='container']/div[1]/h2")
         self.assertEqual(goal_heading.text, 'Excursion')
 
         # Assert goal added
