@@ -22,5 +22,15 @@
                     <h5><i>Or, contribute to any of the goals.</i></h5>
             {% endfor %}
         </div>
+        <hr/><h4 class="text-warning">Overdue Tasks <small><i> in last {{ overdue_days }} days </i></small></h4>
+        <div style="padding:10px">
+            {% for o_task in overdue_tasks %}
+                {% ifchanged %}<h4 class="text-danger">{{ o_task.task_target_date|date:"d F Y" }}</h4>{% endifchanged %}
+                    <ul><li><strong class="text-info">{{ o_task.task_goal_map }}</strong>: {{ o_task.task_subject }}&nbsp;
+                        <i class="text-muted">{{ o_task.task_details }}</i></li></ul>
+            {% empty %}
+                <h5 class="text-primary">No tasks found for last {{ overdue_days }} days.</h5>
+            {% endfor %}
+        </div>
     {% endblock %}
 {% endblock %}

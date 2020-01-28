@@ -2,7 +2,7 @@ import os
 import json
 import pytz
 from collections import OrderedDict
-from datetime import date
+from datetime import date, timedelta, datetime
 
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
@@ -37,7 +37,7 @@ class IndexView(TemplateView):
 class DashboardView(ListView):
 
     template_name = "dashboard/landing_page.html"
-
+    OVERDUE_DAYS = 10
     context_object_name = 'tasks'
 
     def get_queryset(self):
@@ -48,6 +48,23 @@ class DashboardView(ListView):
             # pass for now
             pass
         return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_data = super(DashboardView, self).get_context_data(**kwargs)
+        qs = []
+        try:
+            yesterday = date.today() - timedelta(days=1)
+            earlier = datetime.now() - timedelta(days=self.OVERDUE_DAYS)
+            qs = GoalTasks.objects.filter(
+                task_target_date__range=(earlier, yesterday),
+                task_completion_date__isnull=True
+            )
+        except Exception:
+            # pass for now
+            pass
+        context_data['overdue_tasks'] = qs
+        context_data['overdue_days'] = self.OVERDUE_DAYS
+        return context_data
 
 
 class ListGoalsView(ListView):

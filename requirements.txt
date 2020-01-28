@@ -1,9 +1,11 @@
 appdirs
 flake8
+gunicorn
 Django
 django-debug-toolbar
 packaging
 pyparsing
 pytz
+selenium
 six
 sqlparse
