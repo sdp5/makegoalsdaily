@@ -22,3 +22,10 @@ class HomePageTest(TestCase):
         response = self.client.get('/logout/')
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/')
+
+    def test_uses_dashboard_landing_page(self):
+        # login is required to access /dashboard url.
+        self.client.post('/login/', {'username': 'admin',
+                                     'password': 'administration'})
+        response = self.client.get('/dashboard', follow=True)
+        self.assertTemplateUsed(response, 'dashboard/landing_page.html')
