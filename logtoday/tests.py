@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import resolve
+from logtoday.models import GoalsCategory
 
 
 class HomePageTest(TestCase):
@@ -29,3 +30,27 @@ class HomePageTest(TestCase):
                                      'password': 'administration'})
         response = self.client.get('/dashboard', follow=True)
         self.assertTemplateUsed(response, 'dashboard/landing_page.html')
+
+
+class ModelTest(TestCase):
+
+    def test_adding_and_removing_goal_categories(self):
+        goal_first = GoalsCategory()
+        goal_first.category_value = "reading"
+        goal_first.category_name = "Read - Activities"
+        goal_first.save()
+
+        goal_second = GoalsCategory()
+        goal_second.category_value = "sketching"
+        goal_second.category_name = "sketch - Activities"
+        goal_second.save()
+
+        saved_categories = GoalsCategory.objects.all()
+        self.assertEqual(saved_categories.count(), 2)
+
+        first_saved_goal = saved_categories[0]
+        self.assertEqual(first_saved_goal.category_value, "reading")
+
+        goal_first.delete()
+        saved_categories = GoalsCategory.objects.all()
+        self.assertEqual(saved_categories.count(), 1)
