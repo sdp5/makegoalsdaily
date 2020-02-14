@@ -40,4 +40,4 @@ run:
 
 .PHONY: test
 test:
-	python3 manage.py test tests.functional
+	python3 manage.py test tests.functional logtoday
