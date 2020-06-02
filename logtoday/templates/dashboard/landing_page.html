@@ -16,7 +16,13 @@
         <div style="padding:10px">
             {% for task in tasks %}
                 {% ifchanged %}<h4 class="text-primary">{{ task.task_goal_map }}</h4>{% endifchanged %}
-                <ul><li>{{ task.task_subject }}&nbsp;<i class="text-muted">{{ task.task_details }}</i></li></ul>
+                <ul><li>{{ task.task_subject }}&nbsp;<i class="text-muted">{{ task.task_details }}</i>
+                    {% if task.task_completion_date %}
+                        &nbsp;<span class="glyphicon glyphicon-check text-success"></span>
+                    {% else %}
+                        (<a href="{% url 'task-edit' task.task_goal_map task.task_id %}">update</a>)
+                    {% endif %}
+                </li></ul>
             {% empty %}
                 <h4>No tasks. Enjoy your day !!</h4>
                     <h5><i>Or, contribute to any of the goals.</i></h5>
