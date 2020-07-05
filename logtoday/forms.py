@@ -71,6 +71,9 @@ class TaskUpdateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TaskUpdateForm, self).__init__(*args, **kwargs)
+        if 'initial' in kwargs and not kwargs.get('initial', {}).get('task_target_date'):
+            self.fields['task_target_date'].widget = \
+                forms.DateTimeInput(attrs={'class': 'datetime-input'})
 
     class Meta:
         model = GoalTasks
