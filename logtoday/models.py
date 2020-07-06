@@ -114,7 +114,7 @@ class GoalTasks(models.Model):
     task_subject = models.CharField(max_length=400, verbose_name="Task Subject")
     task_details = models.CharField(max_length=1000, verbose_name="Task Details")
     task_created_on = models.DateTimeField(verbose_name="Activity Created On")
-    task_target_date = models.DateTimeField(verbose_name="Task Target Date")
+    task_target_date = models.DateTimeField(verbose_name="Task Target Date", null=True, blank=True)
     task_completion_date = models.DateTimeField(verbose_name="Task Completion Date", null=True, blank=True)
     task_goal_map = models.CharField(max_length=500, verbose_name="Map with Goal")
     task_user = models.ForeignKey(User, on_delete=models.CASCADE)

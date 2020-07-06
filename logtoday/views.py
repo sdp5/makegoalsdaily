@@ -37,7 +37,7 @@ class IndexView(TemplateView):
 class DashboardView(ListView):
 
     template_name = "dashboard/landing_page.html"
-    OVERDUE_DAYS = 10
+    OVERDUE_DAYS = 15
     context_object_name = 'tasks'
 
     def get_queryset(self):
@@ -213,6 +213,7 @@ class TaskEdit(UpdateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context_data = super(TaskEdit, self).get_context_data(**kwargs)
         context_data['goal'] = self.kwargs['pk']
+        context_data['task_id'] = self.kwargs['task_id']
         return context_data
 
     def get_initial(self):
@@ -278,21 +279,29 @@ class ReportGoalsProgress(TemplateView):
 
             try:
                 goal_activities = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug).count()
+                goal_tasks = GoalTasks.objects.filter(task_goal_map=goal.goal_slug).count()
                 goal_milestones = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug, activity_star=True).count()
                 goal_weightage = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug).aggregate(Sum('activity_weightage'))
-                goal_first_activity = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug).latest('activity_created')
+                if goal_activities > 0:
+                    goal_first_activity = DailyActivity.objects.filter(activity_goal_map=goal.goal_slug).latest('activity_created')
             except Exception:
                 # log error
                 pass
             else:
                 goals_progress_dict[goal.goal_slug]['milestones'] = goal_milestones
                 goals_progress_dict[goal.goal_slug]['activities'] = goal_activities
-                goals_progress_dict[goal.goal_slug]['weightage'] = goal_weightage.get('activity_weightage__sum', 1)
-                progress_percent = self._goal_progress_percentage(
-                    goal_first_activity.activity_created, goal.goal_target,
-                    goal_weightage.get('activity_weightage__sum', 1), goal.goal_weight)
-                goals_progress_dict[goal.goal_slug]['progress_percent'] = progress_percent
-
+                goals_progress_dict[goal.goal_slug]['tasks'] = goal_tasks
+                goals_progress_dict[goal.goal_slug]['weightage'] = goal_weightage.get('activity_weightage__sum') or 1
+                if goal_activities > 0:
+                    progress_percent = self._goal_progress_percentage(
+                        goal_first_activity.activity_created, goal.goal_target,
+                        goal_weightage.get('activity_weightage__sum', 1), goal.goal_weight)
+                    goals_progress_dict[goal.goal_slug]['progress_percent'] = progress_percent
+                if goal_tasks > 0:
+                    goal_tasks_completed = GoalTasks.objects.filter(
+                        task_goal_map=goal.goal_slug, task_completion_date__isnull=False
+                    ).count()
+                    goals_progress_dict[goal.goal_slug]['progress_percent'] = (goal_tasks_completed * 100) / goal_tasks
         context_data['progress'] = goals_progress_dict
         return context_data
 

@@ -28,7 +28,7 @@
 
 {% block subcontent %}
     <div class="panel panel-default">
-      <div class="panel-heading">Set Task</div>
+      <div class="panel-heading">Set Task{% if task_id %} #<b>{{ task_id }}</b>{% endif %}</div>
       <div class="panel-body">
         {% if not goal_completed %}
         <form action="" method="post">{% csrf_token %}

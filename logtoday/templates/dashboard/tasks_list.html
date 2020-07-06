@@ -40,6 +40,7 @@
             {% if tasks %}
                 <table id="tasksTable" class="table table-hover">
                     <thead><tr>
+                        <th>ID</th>
                         <th>Deadline</th>
                         <th>Subject</th>
                         <th>Details</th>
@@ -50,12 +51,13 @@
                     <tbody>
                 {% for task in tasks %}
                     <tr>
+                        <td style="width:2%">{{ task.task_id }}</td>
                         <td style="width:10%">
                             <a href="#" data-toggle="tooltip" title="Created on {{ task.task_created_on|date:'M d, Y' }} by {{ task.task_user }}">
-                            {{ task.task_target_date|date:"M d, Y" }}</a></td>
+                            {% if task.task_target_date %}{{ task.task_target_date|date:"M d, Y" }}{% else %}TBD{% endif %}</a></td>
                         <td style="width:25%">{{ task.task_subject }}</td>
                         <td style="width:45%;word-wrap:break-word;">{{ task.task_details }}</td>
-                        <td style="width:12%"> {% if task.task_completion_date %}{{ task.task_completion_date|date:'M d, Y' }}
+                        <td style="width:10%"> {% if task.task_completion_date %}{{ task.task_completion_date|date:'M d, Y' }}
                             {% else %}<b>-</b>{% endif %}</td>
                         <td style="width:4%"><a class="btn btn-default" role="button" href="{% ifequal user task.task_user %}
                         {% url 'task-edit' goal task.task_id %}{% else %}#{% endifequal %}">
