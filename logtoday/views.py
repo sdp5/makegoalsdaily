@@ -72,6 +72,7 @@ class ListGoalsView(ListView):
     template_name = "dashboard/goals_list.html"
     model = ShortTermGoals
     context_object_name = "goals"
+    ordering = ['-goal_category']
 
 
 class GoalsCreate(CreateView):
