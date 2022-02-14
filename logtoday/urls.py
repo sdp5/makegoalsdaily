@@ -13,9 +13,9 @@ from logtoday.views import (
 
 
 reports_url = [
-    url(r'^$', login_required(ReportMonthlyStatus.as_view(), login_url="/"), name="reports-home"),
+    url(r'^$', login_required(ReportGoalsProgress.as_view(), login_url="/"), name="reports-home"),
+    url(r'^monthly$', login_required(ReportMonthlyStatus.as_view(), login_url="/"), name="reports-monthly"),
     url(r'^ajax/monthly-activities$', monthly_activities, name="monthly_activities"),
-    url(r'^progress$', login_required(ReportGoalsProgress.as_view(), login_url="/"), name="reports-progress"),
 ]
 
 settings_url = [
