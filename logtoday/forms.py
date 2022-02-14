@@ -77,7 +77,7 @@ class TaskUpdateForm(forms.ModelForm):
 
     class Meta:
         model = GoalTasks
-        fields = ['task_details', 'task_target_date', 'task_completion_date']
+        fields = ['task_details', 'task_target_date', 'task_completion_date', 'task_context']
         widgets = {
             'task_completion_date': forms.DateTimeInput(attrs={'class': 'datetime-input'})
         }
