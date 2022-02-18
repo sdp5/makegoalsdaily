@@ -65,6 +65,11 @@ class ShortTermGoals(models.Model):
         )
         return super(ShortTermGoals, self).save(*args, **kwargs)
 
+    def delete(self, using=None, keep_parents=False):
+        # delete related tasks as well
+        GoalTasks.objects.filter(task_goal_map=self.goal_slug).delete()
+        return super(ShortTermGoals, self).delete(using=using, keep_parents=keep_parents)
+
     class Meta:
         db_table = TABLE_PREFIX + 'goals'
         verbose_name = "Short Term Goal"
