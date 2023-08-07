@@ -7,8 +7,18 @@
 * log your activity daily
 * leave rest to the app
 
+### Try and Test
 
-### Deploy and Test
+* Build image `sudo docker build -t makegoalsdaily/logtoday deploy/docker`
+* Run container `docker run -d --name logtoday -p 8080:8080 makegoalsdaily/logtoday`
+* Point your browser to localhost:8080 and login.
+
+```
+Username: admin
+Password: makegoalsdaily
+```
+
+### Deploy
 
 * Install and configure apache with mod_wsgi for py3
 * Download or clone project and change to project dir
@@ -25,7 +35,7 @@
 * Point your browser to localhost:8000 and import project in your IDE
 * Create GitHub [issues](https://github.com/sundeep-co-in/makegoalsdaily/issues) and lets discuss how we can make this better!
 
-##### To run tests
+##### Run tests
 
 * Download `geckodriver` from https://github.com/mozilla/geckodriver/releases
 * Place it in `bin` directory of the virtual env.
