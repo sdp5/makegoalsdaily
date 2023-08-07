@@ -9,3 +9,4 @@ pytz
 selenium
 six
 sqlparse
+tzdata

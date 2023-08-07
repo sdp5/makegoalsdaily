@@ -64,8 +64,8 @@
                             <a href="#" data-toggle="tooltip" title="{{ activity.activity_weightage|multiply:4 }} hours">{{ activity.activity_detail }}</a></td>
                         <td style="width:18%"><span class="glyphicon glyphicon-time"></span> {{ activity.activity_created|date:"d b 'y P" }}</td>
                         <td style="width:10%"><span class="glyphicon glyphicon-user"></span> {{ activity.activity_user }}</td>
-                        <td style="width:4%"><a class="btn btn-default" role="button" href="{% ifequal user activity.activity_user %}
-                        {% url 'activity-remove' activity.activity_id %}{% else %}#{% endifequal %}">
+                        <td style="width:4%"><a class="btn btn-default" role="button" href="{% if user == activity.activity_user %}
+                        {% url 'activity-remove' activity.activity_id %}{% else %}#{% endif %}">
                             <span class="glyphicon glyphicon-trash" style="color:#d9534f"></span></a></td>
                     </tr>
                 {% endfor %}

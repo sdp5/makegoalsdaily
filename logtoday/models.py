@@ -51,7 +51,7 @@ class ShortTermGoals(models.Model):
 
     @property
     def days_remaining(self):
-        return (self.goal_target - timezone.now()).days
+        return (self.goal_target - timezone.now()).days if self.goal_target else None
 
     def __str__(self):
         return self.goal_slug

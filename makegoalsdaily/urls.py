@@ -14,18 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls import url, include
+from django.urls import re_path
+from django.conf.urls import include
 from django.conf.urls.static import static
 from django.contrib import admin
 
 
 urlpatterns = [
-    url(r'^', include('logtoday.urls')),
-    # url(r'^admin/', include(admin.site.urls)),
+    re_path(r'^', include('logtoday.urls')),
+    # re_path(r'^admin/', include(admin.site.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
+        re_path(r'^__debug__/', include(debug_toolbar.urls)),
     ]
