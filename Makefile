@@ -11,7 +11,7 @@ env:
 
 .PHONY: demo
 demo:
-	python3 manage.py runserver --settings=makegoalsdaily.settings.test --insecure
+	python3 manage.py runserver 0.0.0.0:8080 --settings=makegoalsdaily.settings.test --insecure
 
 .PHONY: env-info
 env-info:

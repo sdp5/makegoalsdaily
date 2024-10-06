@@ -9,8 +9,8 @@ ENV PYTHONUNBUFFERED=1
 RUN mkdir /workspace
 WORKDIR /workspace
 RUN git clone -b main https://github.com/sdp5/makegoalsdaily.git .
-RUN make env && make migrate
+RUN make env
 
 EXPOSE 8080
 
-CMD ["/workspace/launch.sh"]
+CMD ["/workspace/deploy/server.sh"]
